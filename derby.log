@@ -1,0 +1,14 @@
+Fri Dec 04 04:58:07 COT 2015 : Servidor de red Apache Derby: Se ha iniciado 10.10.2.0 - (1582446) y está listo para aceptar las conexiones en el puerto 1527
+----------------------------------------------------------------
+Fri Dec 04 04:58:09 COT 2015:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0151-6c6d-6471-000002d9d650 
+on database directory D:\Documents\NetBeansProjects\UNIVALLE\MatriculaAcademica\Universidad with class loader sun.misc.Launcher$AppClassLoader@7d4991ad 
+Loaded from file:/D:/Documents/NetBeansProjects/UNIVALLE/MatriculaAcademica/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_65-b17
+user.dir=D:\Documents\NetBeansProjects\UNIVALLE\MatriculaAcademica
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
