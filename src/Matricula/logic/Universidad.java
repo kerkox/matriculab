@@ -18,14 +18,13 @@ public class Universidad {
     private String nit;
     private String nombre;
     private String direccion;
-    private Periodo periodoActual; 
+    private Periodo periodoActual;
     private List<Periodo> periodos = new ArrayList<>();
     private List<Programa> programas = new ArrayList<>();
     private List<Asignatura> asignaturas = new ArrayList<>();
     private List<Docente> docentes = new ArrayList<>();
     private List<Estudiante> estudiantes = new ArrayList<>();
 
-   
     public Universidad(String nit, String nombre, String direccion) {
         this.nit = nit;
         this.nombre = nombre;
@@ -75,8 +74,6 @@ public class Universidad {
         return estudiantes;
     }
 
-   
-
     //==============================
     //Mostrar los cursos para una asignatura especifica 
     //En el periodo actual
@@ -102,10 +99,8 @@ public class Universidad {
 
     public void regitrarCurso(Curso curso) throws Exception {
         periodoActual.add(curso);
-        
-    }
 
-    
+    }
 
     /**
      *
@@ -117,7 +112,6 @@ public class Universidad {
      */
     public void CrearPeriodo(Mes incia, Mes finaliza, int year) throws DateBeforeException, Exception {
 
-        
         Periodo periodo = new Periodo(incia, finaliza, year);
         switch (PeriodoBefore(periodo, periodoActual)) {
             case 0:
@@ -129,7 +123,7 @@ public class Universidad {
         }
 
         periodoActual = periodo;
-        
+
     }
 
     /**
@@ -158,7 +152,6 @@ public class Universidad {
     }
 
     public void CrearPeriodo(Periodo periodo) throws DateBeforeException, Exception {
-        
 
         switch (PeriodoBefore(periodo, periodoActual)) {
             case 0:
@@ -168,13 +161,13 @@ public class Universidad {
             case 2:
                 throw new DateBeforeException("No se puede crear un periodo de un año anterior: " + periodo.getYear());
         }
-        
+
         periodoActual = periodo;
-        
+
     }
-    
-    public void ActulizarPeriodoEstudiantes() throws Exception{
-        for(Estudiante est: this.estudiantes){
+
+    public void ActulizarPeriodoEstudiantes() throws Exception {
+        for (Estudiante est : this.estudiantes) {
             est.ActualizarTabulado();
         }
     }
@@ -238,26 +231,23 @@ public class Universidad {
         if (cursos.contains(curso)) {
             if (cursos.get(cursos.indexOf(curso)).getEstado() == Estado.CANCELADO) {
                 this.periodoActual.getCursos().get(cursos.indexOf(curso)).setEstado(Estado.ACTIVO);
-                } else {
+            } else {
                 throw new Exception("ERROR CURSO YA REGISTRADO");
             }
 
         }
 
-        
     }
 
-    
-
     public Estudiante buscarEstudiante(String codigo) throws ObjectNotFoundException {
-        Estudiante est=null;
-        for(Estudiante estu : this.estudiantes){
-            if(estu.getCodigo().equals(codigo)){
+        Estudiante est = null;
+        for (Estudiante estu : this.estudiantes) {
+            if (estu.getCodigo().equals(codigo)) {
                 est = estu;
             }
             break;
         }
-        
+
         if (est == null) {
             throw new ObjectNotFoundException("El estudiante con codigo: " + codigo + " No fue encontrado");
         }
@@ -275,11 +265,15 @@ public class Universidad {
     }
 
     public Docente buscarDocente(long id) throws ObjectNotFoundException {
-        Docente teacher = docenteJpa.findDocente(id);
-        if (teacher == null) {
-            throw new ObjectNotFoundException("Docente con identifiacion: " + id + " no encontrado");
+
+        for (Docente doc : this.docentes) {
+            if (doc.getIdentificacion() == id) {
+                return doc;
+            }
         }
-        return teacher;
+
+        throw new ObjectNotFoundException("Docente con identifiacion: " + id + " no encontrado");
+
     }
 
     public Asignatura BuscarAsignatura(String code) throws ObjectNotFoundException {
