@@ -128,23 +128,20 @@ public class Estudiante extends Persona {
     
     //==================================
     //Metodos de matricula
-    public void Matricular(Curso curso, Periodo periodo, CursoJpaController CursoJpa, MatriculaJpaController matriculaJpa) throws Exception {
+    public void Matricular(Curso curso, Periodo periodo) throws Exception {
         //////*********************************
         if (getTabuladoActual() == null) {
             this.tabulados.add(new Tabulado(periodo));
         }
-        getTabuladoActual().MatricularCurso(curso, CursoJpa, matriculaJpa);
+        tabuladoActual.MatricularCurso(curso);
     }
 
     //==================================
     //Metodos de Cancelar curso
-    public void Cancelar(Curso curso) {
-        getTabuladoActual().CancelarCurso(curso);
-    }
 
-    public void Cancelar(Curso curso, CursoJpaController CursoJpa, MatriculaJpaController matriculaJpa) throws Exception {
+    public void Cancelar(Curso curso) throws Exception {
 
-        getTabuladoActual().CancelarCurso(curso, CursoJpa, matriculaJpa);
+        tabuladoActual.CancelarCurso(curso);
 
     }
 

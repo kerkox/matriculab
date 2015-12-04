@@ -288,39 +288,35 @@ public class Universidad {
 
     //////*********************************
     public void MatricularCurso(Estudiante estu, Curso curso) throws Exception {
-        estu.Matricular(curso, getPeriodoActual(), cursoJpa, matricualJpa);
-        estudianteJpa.edit(estu);
+        estu.Matricular(curso, this.periodoActual);
+        
         //////*********************************
     }
 
     public void CancelarCurso(Estudiante estu, Curso curso) throws Exception {
-        estu.Cancelar(curso, cursoJpa, matricualJpa);
-
-//        cursoJpa.edit(curso);
-        List<Matricula> matris = estu.getTabuladoActual().getMatriculas();
-        matricualJpa.edit(matris.get(matris.indexOf(new Matricula(new Date(), curso))));
-
-        tabuladoJpa.edit(estu.getTabuladoActual());
-        estudianteJpa.edit(estu);
-
+        estu.Cancelar(curso);
     }
 
     public void CancelarCursoPeriodo(Curso curso) throws Exception {
-        getPeriodoActual().CancelarCurso(curso);
-        periodoJpa.edit(getPeriodoActual());
+        periodoActual.CancelarCurso(curso);
+        
     }
 
     public void CancelarCursoPeriodo(int index) throws Exception {
-        getPeriodoActual().CancelarCurso(index, cursoJpa);
-        periodoJpa.edit(getPeriodoActual());
+        periodoActual.CancelarCurso(index);
+        
     }
 
     public Curso BuscarCurso(String codeSubject, byte group) throws ObjectNotFoundException {
-        Curso course = cursoJpa.findCurso(group, codeSubject);
-        if (course == null) {
-            throw new ObjectNotFoundException("No se encuentra el Curso: grupo: " + group + " asignatura codigo: " + codeSubject);
+        for(Curso curso: this.periodoActual.getCursos()){
+            if(curso.getAsignatura().getCodigo().equals(codeSubject)){
+                if(curso.getGrupo()==group){
+                    return curso;
+                }
+            }
+            
         }
-        return course;
+            throw new ObjectNotFoundException("No se encuentra el Curso: grupo: " + group + " asignatura codigo: " + codeSubject);
     }
 
     public boolean estudiantesMatriculados(Curso curso) {

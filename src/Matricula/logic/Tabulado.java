@@ -122,26 +122,13 @@ public class Tabulado implements Serializable {
     //==============================
     //Cancelar cursos
     //////*********************************
-    public void CancelarCurso(Curso curso) {
-        Matricula matri = matriculas.get(matriculas.indexOf(new Matricula(new Date(), curso)));
-        if (matri.getCurso().getEstado() == Estado.ACTIVO) {
-            matri.getCurso().setEstado(Estado.CANCELADO);
-            matri.setCancelada(new Date());
-            creditos -= matri.getCurso().getAsignatura().getCreditos();
-
-        }
-    }
-
-    public void CancelarCurso(Curso curso, CursoJpaController CursoJpa, MatriculaJpaController matriculaJpa) throws Exception {
+    
+    public void CancelarCurso(Curso curso) throws Exception {
         Matricula matri = matriculas.get(matriculas.indexOf(new Matricula(new Date(), curso)));
         if (matri.getCurso().getEstado() == Estado.ACTIVO) {
             if((creditos-matri.getCurso().getAsignatura().getCreditos())<6) throw new Exception("ERROR: no se puede cancelar cantidad minima de creditos invalida (6)");
-//            matri.getCurso().setEstado(EstadoCurso.CANCELADO);
-//            CursoJpa.edit(matri.getCurso());
             matri.setCancelada(new Date());
-            matriculaJpa.edit(matri);
             creditos -= matri.getCurso().getAsignatura().getCreditos();
-
         }
     }
 

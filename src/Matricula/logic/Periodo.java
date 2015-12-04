@@ -142,10 +142,9 @@ public class Periodo implements Serializable {
         course.setEstado(Estado.CANCELADO);
     }
 
-    public void CancelarCurso(int index, CursoJpaController CursoJpa) throws Exception {
+    public void CancelarCurso(int index) throws Exception {
         Curso curso = this.cursos.get(index);
         curso.setEstado(Estado.CANCELADO);
-        CursoJpa.edit(curso);
         this.cursos.set(index, curso);
 
     }
