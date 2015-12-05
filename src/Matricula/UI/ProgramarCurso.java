@@ -781,9 +781,13 @@ public class ProgramarCurso extends javax.swing.JFrame {
 
         jLabel16.setText("Nombre:");
 
+        StudentFieldName.setEditable(false);
+
         StudentButtonSearch.setText("Buscar");
 
         jLabel17.setText("Plan:");
+
+        StudentFieldPlan.setEditable(false);
 
         StudentTableDeudas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -802,11 +806,14 @@ public class ProgramarCurso extends javax.swing.JFrame {
 
         jLabel19.setText("Periodo Matriculado:");
 
+        StudentFieldPeriodo.setEditable(false);
+
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Asignacion Deuda"));
 
         jLabel20.setText("Dependencia:");
 
         StudentDeudaButtonAdd.setText("Asignar Deuda");
+        StudentDeudaButtonAdd.setEnabled(false);
 
         jLabel21.setText("Observacion:");
 
@@ -844,6 +851,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
         );
 
         StudentButtonCancelDeuda.setText("Eliminar Deuda");
+        StudentButtonCancelDeuda.setEnabled(false);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -1303,6 +1311,7 @@ public class BuscarDocente implements ActionListener {
                 StudentFieldPeriodo.setText(estudiante.getTabuladoActual().getPeriodo().toString());
                 StudentFieldPlan.setText(estudiante.getPrograma().toString());
                 StudentTableDeudas.updateUI();
+                StudentDeudaButtonAdd.setEnabled(true);
             } catch (ObjectNotFoundException ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -1329,6 +1338,7 @@ public class BuscarDocente implements ActionListener {
 
                 estudiante.add(deubt);
                 StudentTableDeudas.updateUI();
+                StudentButtonCancelDeuda.setEnabled(true);
 
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -1338,6 +1348,14 @@ public class BuscarDocente implements ActionListener {
 
     }
     
+    public class ListenerCancelarDeuda implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(StudentTableDeudas.gets)
+        }
+        
+    }
     
 
 }
