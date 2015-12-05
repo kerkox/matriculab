@@ -48,11 +48,14 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private HorariosCurso horariosUI = null;
     private boolean save = false;
     private Estudiante estudiante;
+    
 
     public ProgramarCurso(Docente docente, Universidad u, Principal main) {
         this.docenteLogueado = docente;
         this.main = main;
         this.u = u;
+        
+        
         initComponents();
         //***************************************   
         ListenerAddTime AddTime = new ListenerAddTime();
@@ -104,7 +107,9 @@ public class ProgramarCurso extends javax.swing.JFrame {
         //***************************************   
         StudentDeudaButtonAdd.addActionListener(new ListenerAsignarDeuda());
         //***************************************   
-        StudentButtonCancelDeuda.addActionListener(new ListenerCancelarDeuda());
+        ListenerCancelarDeuda lcd = new ListenerCancelarDeuda();
+        StudentButtonCancelDeuda.addActionListener(lcd);
+        StudentFieldCode.addActionListener(lcd);
         //***************************************   
 
         TableCupos.setModel(new AbstractTableModel() {
@@ -388,6 +393,10 @@ public class ProgramarCurso extends javax.swing.JFrame {
         jLabel21 = new javax.swing.JLabel();
         StudentDeudaObservacion = new javax.swing.JTextField();
         StudentButtonCancelDeuda = new javax.swing.JButton();
+        jPanel8 = new javax.swing.JPanel();
+        ConsultProgramacion = new javax.swing.JButton();
+        ConsultCupos = new javax.swing.JButton();
+        ConsultStudentPerPeriodo = new javax.swing.JButton();
         ButtonFinished = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -921,6 +930,41 @@ public class ProgramarCurso extends javax.swing.JFrame {
 
         TabCancelCourse.addTab("Deudas Estudiante", jPanel6);
 
+        ConsultProgramacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/calendar_icon.png"))); // NOI18N
+        ConsultProgramacion.setText("Programacion de Asignatura");
+
+        ConsultCupos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/Accept-Male-User.png"))); // NOI18N
+        ConsultCupos.setText("Cupos de Asignatura");
+
+        ConsultStudentPerPeriodo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/icono-de-estudiante-23788.png"))); // NOI18N
+        ConsultStudentPerPeriodo.setText("Estudiantes por Periodo");
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ConsultStudentPerPeriodo)
+                    .addComponent(ConsultProgramacion)
+                    .addComponent(ConsultCupos))
+                .addContainerGap(250, Short.MAX_VALUE))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(ConsultProgramacion)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ConsultCupos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ConsultStudentPerPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
+
+        TabCancelCourse.addTab("Consultas", jPanel8);
+
         ButtonFinished.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         ButtonFinished.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/boton-regresar50x50.png"))); // NOI18N
         ButtonFinished.setText("Finalizar");
@@ -967,6 +1011,9 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private javax.swing.JButton ButtonSearchTeacher;
     private javax.swing.JButton ButtonSetTime;
     private javax.swing.JComboBox ComboSelecionPeriodo;
+    private javax.swing.JButton ConsultCupos;
+    private javax.swing.JButton ConsultProgramacion;
+    private javax.swing.JButton ConsultStudentPerPeriodo;
     private javax.swing.JComboBox CupoList;
     private javax.swing.JSpinner CuposNumber;
     private javax.swing.JTextField CuposTotal;
@@ -1025,6 +1072,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1372,6 +1420,16 @@ public class BuscarDocente implements ActionListener {
             }
         }
 
+    }
+    
+    public class ListenerConsultaProgramacion implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new ProgramacionAsignatura(u,proCurso).setVisible(true);
+            setVisible(false);
+        }
+        
     }
 
 }

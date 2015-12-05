@@ -244,20 +244,14 @@ public class Universidad implements Serializable{
     }
 
     public Estudiante buscarEstudiante(String codigo) throws ObjectNotFoundException {
-        Estudiante est = null;
+        
         for (Estudiante estu : this.estudiantes) {
             if (estu.getCodigo().equals(codigo)) {
-                est = estu;
-            }
-            break;
+                return estu;
+            }            
         }
-
-        if (est == null) {
-            throw new ObjectNotFoundException("El estudiante con codigo: " + codigo + " No fue encontrado");
-        }
-        return est;
+            throw new ObjectNotFoundException("El estudiante con codigo: " + codigo + " No fue encontrado");        
     }
-
     /**
      *
      * @param estu: estudiante para validad deudas
