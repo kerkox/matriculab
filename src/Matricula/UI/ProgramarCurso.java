@@ -8,7 +8,9 @@ package Matricula.UI;
 import Matricula.logic.Asignatura;
 import Matricula.logic.Cupo;
 import Matricula.logic.Curso;
+import Matricula.logic.Deuda;
 import Matricula.logic.Docente;
+import Matricula.logic.Estudiante;
 import Matricula.logic.Exceptions.DateBeforeException;
 import Matricula.logic.Exceptions.ObjectNotFoundException;
 import Matricula.logic.Periodo;
@@ -45,6 +47,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private Cupo cupo;
     private HorariosCurso horariosUI = null;
     private boolean save = false;
+    private Estudiante estudiante;
 
     public ProgramarCurso(Docente docente, Universidad u, Principal main) {
         this.docenteLogueado = docente;
@@ -97,6 +100,11 @@ public class ProgramarCurso extends javax.swing.JFrame {
         //***************************************   
         ButtonNewPeriodo.addActionListener(new ListenerNewPeriodo());
         //***************************************   
+        StudentButtonSearch.addActionListener(new ListenerSearchStudent());
+        //***************************************   
+        StudentDeudaButtonAdd.addActionListener(new ListenerAsignarDeuda());
+        //***************************************   
+
         
         TableCupos.setModel(new AbstractTableModel() {
 
@@ -136,6 +144,45 @@ public class ProgramarCurso extends javax.swing.JFrame {
         for (Programa pro : u.getProgramas()) {
             CupoList.addItem(pro);
         }
+        //*************************************
+        //####################################
+        //Tabla deudas
+        this.StudentTableDeudas.setModel(new AbstractTableModel() {
+
+            String[] names = {"Dependencia", "Observaciones"};
+
+            @Override
+            public String getColumnName(int column) {
+                return names[column];
+            }
+
+            @Override
+            public int getRowCount() {
+                if (estudiante == null) {
+                    return 0;
+                }
+                return estudiante.getDeudas().size();
+
+            }
+
+            @Override
+            public int getColumnCount() {
+                return names.length;
+            }
+
+            @Override
+            public Object getValueAt(int rowIndex, int columnIndex) {
+                Deuda deuda = estudiante.getDeudas().get(rowIndex);
+                switch (columnIndex) {
+                    case 0:
+                        return deuda.getDependencia();
+                    case 1:
+                        return deuda.getObservacion();
+
+                }
+                return "";
+            }
+        });
 
         //##########################################
         //Tab Cancelar Cursos
@@ -183,22 +230,21 @@ public class ProgramarCurso extends javax.swing.JFrame {
                 return "";
             }
         });
-        
+
         //***********************************
         ComboSelecionPeriodo.removeAllItems();
-        
+
         ComboSelecionPeriodo.addItem("Febrero - Junio");
         ComboSelecionPeriodo.addItem("Agosto - Septiembre");
         //************************************
-      
 
         //##########################################
     }
 
-    public void refreshPeriodo(){
+    public void refreshPeriodo() {
         FieldPeriodoActual.setText(u.getPeriodoActual().toString());
     }
-    
+
     public void ActivateProgramCourse(boolean yn) {
         ButtonSetTime.setEnabled(yn);
         CupoList.setEnabled(yn);
@@ -321,6 +367,26 @@ public class ProgramarCurso extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         FieldPeriodoActual = new javax.swing.JTextField();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        StudentFieldCode = new javax.swing.JFormattedTextField();
+        jLabel16 = new javax.swing.JLabel();
+        StudentFieldName = new javax.swing.JTextField();
+        StudentButtonSearch = new javax.swing.JButton();
+        jLabel17 = new javax.swing.JLabel();
+        StudentFieldPlan = new javax.swing.JTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        StudentTableDeudas = new javax.swing.JTable();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        StudentFieldPeriodo = new javax.swing.JTextField();
+        jPanel7 = new javax.swing.JPanel();
+        StudentDeudaDependencia = new javax.swing.JTextField();
+        jLabel20 = new javax.swing.JLabel();
+        StudentDeudaButtonAdd = new javax.swing.JButton();
+        jLabel21 = new javax.swing.JLabel();
+        StudentDeudaObservacion = new javax.swing.JTextField();
+        StudentButtonCancelDeuda = new javax.swing.JButton();
         ButtonFinished = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -709,6 +775,143 @@ public class ProgramarCurso extends javax.swing.JFrame {
 
         TabCancelCourse.addTab("Crear Nuevo Periodo", jPanel5);
 
+        jLabel15.setText("Codigo estudiante:");
+
+        StudentFieldCode.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+
+        jLabel16.setText("Nombre:");
+
+        StudentButtonSearch.setText("Buscar");
+
+        jLabel17.setText("Plan:");
+
+        StudentTableDeudas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(StudentTableDeudas);
+
+        jLabel18.setText("Deudas:");
+
+        jLabel19.setText("Periodo Matriculado:");
+
+        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Asignacion Deuda"));
+
+        jLabel20.setText("Dependencia:");
+
+        StudentDeudaButtonAdd.setText("Asignar Deuda");
+
+        jLabel21.setText("Observacion:");
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel21)
+                    .addComponent(jLabel20))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(StudentDeudaDependencia, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(StudentDeudaButtonAdd))
+                    .addComponent(StudentDeudaObservacion, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(172, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(StudentDeudaDependencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel20)
+                    .addComponent(StudentDeudaButtonAdd))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel21)
+                    .addComponent(StudentDeudaObservacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(95, Short.MAX_VALUE))
+        );
+
+        StudentButtonCancelDeuda.setText("Eliminar Deuda");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel17)
+                                    .addComponent(jLabel15)
+                                    .addComponent(jLabel16)
+                                    .addComponent(jLabel19))
+                                .addGap(4, 4, 4)
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel6Layout.createSequentialGroup()
+                                        .addComponent(StudentFieldCode, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
+                                        .addComponent(StudentButtonSearch))
+                                    .addComponent(StudentFieldName)
+                                    .addComponent(StudentFieldPlan)
+                                    .addComponent(StudentFieldPeriodo)))
+                            .addComponent(jLabel18))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(StudentButtonCancelDeuda)
+                .addGap(66, 66, 66))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
+                    .addComponent(StudentFieldCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(StudentButtonSearch))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(StudentFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel16))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(StudentFieldPlan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel19)
+                    .addComponent(StudentFieldPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17)
+                .addComponent(jLabel18)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(StudentButtonCancelDeuda)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        TabCancelCourse.addTab("Deudas Estudiante", jPanel6);
+
         ButtonFinished.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         ButtonFinished.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/boton-regresar50x50.png"))); // NOI18N
         ButtonFinished.setText("Finalizar");
@@ -762,6 +965,16 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private javax.swing.JButton NewCourse;
     private javax.swing.JPanel PanelRegistrar;
     private javax.swing.JSpinner SpinnerYear;
+    private javax.swing.JButton StudentButtonCancelDeuda;
+    private javax.swing.JButton StudentButtonSearch;
+    private javax.swing.JButton StudentDeudaButtonAdd;
+    private javax.swing.JTextField StudentDeudaDependencia;
+    private javax.swing.JTextField StudentDeudaObservacion;
+    private javax.swing.JFormattedTextField StudentFieldCode;
+    private javax.swing.JTextField StudentFieldName;
+    private javax.swing.JTextField StudentFieldPeriodo;
+    private javax.swing.JTextField StudentFieldPlan;
+    private javax.swing.JTable StudentTableDeudas;
     private javax.swing.JFormattedTextField SubjectCode;
     private javax.swing.JTextField SubjectCredits;
     private javax.swing.JSpinner SubjectGroup;
@@ -781,7 +994,14 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -794,8 +1014,11 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     // End of variables declaration//GEN-END:variables
 public class BuscarDocente implements ActionListener {
 
@@ -963,21 +1186,19 @@ public class BuscarDocente implements ActionListener {
         }
 
     }
-    
-    public class ListenerSpinnerYear implements ChangeListener{
+
+    public class ListenerSpinnerYear implements ChangeListener {
 
         @Override
         public void stateChanged(ChangeEvent ce) {
-            if((int)SpinnerYear.getValue()<2000){
+            if ((int) SpinnerYear.getValue() < 2000) {
                 SpinnerYear.setValue(2000);
             }
-            if((int)SpinnerYear.getValue()>3000){
+            if ((int) SpinnerYear.getValue() > 3000) {
                 SpinnerYear.setValue(3000);
             }
         }
 
-        
-        
     }
 
     public class ListenerCancelarCurso implements ActionListener {
@@ -1035,14 +1256,15 @@ public class BuscarDocente implements ActionListener {
         }
 
     }
-    public class ListenerNewPeriodo implements ActionListener{
+
+    public class ListenerNewPeriodo implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
             try {
                 Periodo periodo = new Periodo();
-                System.out.println("Seleccion Combo: "+ComboSelecionPeriodo.getSelectedIndex());
-                switch(ComboSelecionPeriodo.getSelectedIndex()){
+                System.out.println("Seleccion Combo: " + ComboSelecionPeriodo.getSelectedIndex());
+                switch (ComboSelecionPeriodo.getSelectedIndex()) {
                     case 0:
                         periodo.setInicia(Mes.Febrero);
                         periodo.setFin(Mes.Junio);
@@ -1052,24 +1274,70 @@ public class BuscarDocente implements ActionListener {
                         periodo.setFin(Mes.Diciembre);
                         break;
                 }
-                
-                periodo.setYear((int)SpinnerYear.getValue());
+
+                periodo.setYear((int) SpinnerYear.getValue());
                 u.CrearPeriodo(periodo);
                 u.ActulizarPeriodoEstudiantes();
                 TabCancelCourse.updateUI();
                 TableCupos.updateUI();
                 TableCursosProgramados.updateUI();
                 refreshPeriodo();
-            } catch(DateBeforeException ex){
+            } catch (DateBeforeException ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, ex.getMessage());
-            }catch (Exception ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
         }
-        
+
     }
+
+    public class ListenerSearchStudent implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                estudiante = u.buscarEstudiante(StudentFieldCode.getText().trim());
+                StudentFieldName.setText(estudiante.getFullName());
+                StudentFieldPeriodo.setText(estudiante.getTabuladoActual().getPeriodo().toString());
+                StudentFieldPlan.setText(estudiante.getPrograma().toString());
+                StudentTableDeudas.updateUI();
+            } catch (ObjectNotFoundException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        }
+
+    }
+
+    public class ListenerAsignarDeuda implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                if (estudiante == null) {
+                    throw new Exception("Estudiante no asignado");
+                }
+                if (StudentDeudaDependencia.getText().trim().equals("")) {
+                    throw new Exception("Dependencia Necesaria");
+                }
+
+                Deuda deubt = new Deuda(u.getPeriodoActual());
+                deubt.setDependencia(StudentDeudaDependencia.getText().trim());
+                deubt.setObservacion(StudentDeudaObservacion.getText().trim());
+
+                estudiante.add(deubt);
+                StudentTableDeudas.updateUI();
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        }
+
+    }
+    
     
 
 }

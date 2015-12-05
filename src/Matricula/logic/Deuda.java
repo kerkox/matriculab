@@ -16,8 +16,10 @@ public class Deuda implements Serializable {
    
 
    private Periodo periodo;
-    //=====================================
-
+   private String dependencia;
+   private String observacion;
+   //=====================================
+   
     public Deuda() {
     }
 
@@ -25,16 +27,41 @@ public class Deuda implements Serializable {
         this.periodo = periodo;
     }
 
+    public Deuda(Periodo periodo, String dependencia) {
+        this.periodo = periodo;
+        this.dependencia = dependencia;
+    }
+    
+    
+
     //=====================================
     //Metodos Get
     public Periodo getPeriodo() {
         return periodo;
     }
 
+    public String getDependencia() {
+        return dependencia;
+    }
+
+    public String getObservacion() {
+        return observacion;
+    }
+    
+
     //=====================================
     //=====================================
     //Metodos Set
 
+    public void setDependencia(String dependencia) {
+        this.dependencia = dependencia;
+    }
+
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
+    }
+    
+    
     public void setPeriodo(Periodo periodo) {
         this.periodo = periodo;
     }
