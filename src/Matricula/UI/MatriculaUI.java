@@ -651,6 +651,7 @@ public class MatriculaUI extends javax.swing.JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            ListarPeriodos();
             TableTabulados.updateUI();
         }
 

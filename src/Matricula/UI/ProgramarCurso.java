@@ -21,8 +21,6 @@ import Matricula.logic.enumclass.Mes;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
@@ -105,6 +103,8 @@ public class ProgramarCurso extends javax.swing.JFrame {
         StudentButtonSearch.addActionListener(new ListenerSearchStudent());
         //***************************************   
         StudentDeudaButtonAdd.addActionListener(new ListenerAsignarDeuda());
+        //***************************************   
+        StudentButtonCancelDeuda.addActionListener(new ListenerCancelarDeuda());
         //***************************************   
 
         TableCupos.setModel(new AbstractTableModel() {
@@ -786,7 +786,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
 
         StudentButtonSearch.setText("Buscar");
 
-        jLabel17.setText("Plan:");
+        jLabel17.setText("Programa:");
 
         StudentFieldPlan.setEditable(false);
 
@@ -1309,10 +1309,16 @@ public class BuscarDocente implements ActionListener {
             try {
                 estudiante = u.buscarEstudiante(StudentFieldCode.getText().trim());
                 StudentFieldName.setText(estudiante.getFullName());
-                StudentFieldPeriodo.setText(estudiante.getTabuladoActual().getPeriodo().toString());
                 StudentFieldPlan.setText(estudiante.getPrograma().toString());
-                StudentTableDeudas.updateUI();
+                
                 StudentDeudaButtonAdd.setEnabled(true);
+                if(estudiante.getTabuladoActual()==null){
+                 StudentFieldPeriodo.setText("No se ha matriculado todavia");   
+                }else{
+                    StudentFieldPeriodo.setText(estudiante.getTabuladoActual().getPeriodo().toString());
+                }
+                
+                StudentTableDeudas.updateUI();
             } catch (ObjectNotFoundException ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, ex.getMessage());

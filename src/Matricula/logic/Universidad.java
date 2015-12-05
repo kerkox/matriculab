@@ -292,13 +292,13 @@ public class Universidad implements Serializable{
 
     //////*********************************
     public void MatricularCurso(Estudiante estu, Curso curso) throws Exception {
-        estu.Matricular(curso, this.periodoActual);
+        this.estudiantes.get(estudiantes.indexOf(estu)).Matricular(curso, this.periodoActual);
 
         //////*********************************
     }
 
     public void CancelarCurso(Estudiante estu, Curso curso) throws Exception {
-        estu.Cancelar(curso);
+        this.estudiantes.get(estudiantes.indexOf(estu)).Cancelar(curso);
     }
 
     public void CancelarCursoPeriodo(Curso curso) throws Exception {

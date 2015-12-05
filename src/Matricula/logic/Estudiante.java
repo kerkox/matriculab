@@ -13,16 +13,14 @@ import java.util.Objects;
  *
  * @author atenea
  */
-
 public class Estudiante extends Persona {
-
 
     private String codigo;
     private Tabulado tabuladoActual;
     private List<Tabulado> tabulados = new ArrayList<>();
     private List<Deuda> deudas = new ArrayList<>();
     private Programa programa;
-    
+
     public Estudiante() {
     }
 
@@ -34,7 +32,6 @@ public class Estudiante extends Persona {
 
     //==================================
     //Metodos Get
-
     public String getCodigo() {
         return codigo;
     }
@@ -42,7 +39,7 @@ public class Estudiante extends Persona {
     public Programa getPrograma() {
         return programa;
     }
-    
+
     public List<Tabulado> getTabulados() {
         return tabulados;
     }
@@ -54,34 +51,24 @@ public class Estudiante extends Persona {
     public Tabulado getTabuladoActual() {
         return tabuladoActual;
     }
-    
 
-    
-    public Tabulado getTabulado(Periodo periodo){
+    public Tabulado getTabulado(Periodo periodo) {
         if (tabulados.isEmpty()) {
             return null;
         }
         for (Tabulado tabu : tabulados) {
-            if (tabu.getPeriodo().equals(periodo) ) {
+            if (tabu.getPeriodo().equals(periodo)) {
                 return tabu;
             }
         }
         return null;
     }
-    
-    
+
     //==================================
     //==================================
     //Metodos Add
     public void add(Tabulado tabulado) {
-        if (tabuladoActual == null) {
-            this.tabulados.add(tabulado);
-        } else {
-            Tabulado back = tabuladoActual;
-            this.tabulados.add(back);
-            tabuladoActual = tabulado;
-        }
-
+        this.tabulados.add(tabulado);
     }
 
     public void add(Deuda deuda) {
@@ -91,7 +78,6 @@ public class Estudiante extends Persona {
     //==================================
     //==================================
     //Metodos Set
-    
     public void setPrograma(Programa programa) {
         this.programa = programa;
     }
@@ -109,32 +95,34 @@ public class Estudiante extends Persona {
     }
 
     //=================================
-    public void ActualizarTabulado(){
+    public void ActualizarTabulado() {
         this.tabulados.add(tabuladoActual);
-        tabuladoActual=null;
+        tabuladoActual = null;
     }
-    
-    public void EliminarDeuda(int index){
-            this.deudas.remove(index);
-        
+
+    public void EliminarDeuda(int index) {
+        this.deudas.remove(index);
+
     }
-    
-    public void EliminarDeuda(Deuda deuda){
+
+    public void EliminarDeuda(Deuda deuda) {
         this.deudas.remove(deuda);
     }
+
     //==================================
     //Metodos de matricula
+
     public void Matricular(Curso curso, Periodo periodo) throws Exception {
         //////*********************************
         if (tabuladoActual == null) {
             tabuladoActual = new Tabulado(periodo);
+            this.tabulados.add(tabuladoActual);
         }
         tabuladoActual.MatricularCurso(curso);
     }
 
     //==================================
     //Metodos de Cancelar curso
-
     public void Cancelar(Curso curso) throws Exception {
 
         tabuladoActual.CancelarCurso(curso);
@@ -161,7 +149,5 @@ public class Estudiante extends Persona {
     public String toString() {
         return super.getFullName() + " Codigo: " + codigo;
     }
-    
-    
 
 }
