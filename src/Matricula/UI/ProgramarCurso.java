@@ -21,6 +21,8 @@ import Matricula.logic.enumclass.Mes;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
@@ -105,7 +107,6 @@ public class ProgramarCurso extends javax.swing.JFrame {
         StudentDeudaButtonAdd.addActionListener(new ListenerAsignarDeuda());
         //***************************************   
 
-        
         TableCupos.setModel(new AbstractTableModel() {
 
             String[] names = {"Programa", "Cupos"};
@@ -1347,15 +1348,24 @@ public class BuscarDocente implements ActionListener {
         }
 
     }
-    
-    public class ListenerCancelarDeuda implements ActionListener{
+
+    public class ListenerCancelarDeuda implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(StudentTableDeudas.gets)
+            try {
+                if (StudentTableDeudas.getSelectedRow() == -1) {
+                    throw new Exception("No se ha selecionado ninguna deuda");
+                }
+                estudiante.EliminarDeuda(StudentTableDeudas.getSelectedRow());
+                StudentTableDeudas.updateUI();
+                
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
         }
-        
+
     }
-    
 
 }

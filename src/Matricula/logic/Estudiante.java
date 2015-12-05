@@ -114,7 +114,14 @@ public class Estudiante extends Persona {
         tabuladoActual=null;
     }
     
+    public void EliminarDeuda(int index){
+            this.deudas.remove(index);
+        
+    }
     
+    public void EliminarDeuda(Deuda deuda){
+        this.deudas.remove(deuda);
+    }
     //==================================
     //Metodos de matricula
     public void Matricular(Curso curso, Periodo periodo) throws Exception {
