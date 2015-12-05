@@ -111,6 +111,8 @@ public class ProgramarCurso extends javax.swing.JFrame {
         StudentButtonCancelDeuda.addActionListener(lcd);
         StudentFieldCode.addActionListener(lcd);
         //***************************************   
+        ConsultProgramacion.addActionListener(new ListenerConsultaProgramacion());
+        //***************************************   
 
         TableCupos.setModel(new AbstractTableModel() {
 

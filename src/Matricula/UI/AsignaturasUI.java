@@ -5,9 +5,14 @@
  */
 package Matricula.UI;
 
+import Matricula.logic.Asignatura;
 import Matricula.logic.Universidad;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.AbstractTableModel;
 
 /**
  *
@@ -20,11 +25,51 @@ public class AsignaturasUI extends javax.swing.JFrame {
      */
     private Universidad u;
     private ProgramacionAsignatura proAsi;
+
     public AsignaturasUI(Universidad u, ProgramacionAsignatura proAsi) {
         this.u = u;
         this.proAsi = proAsi;
         initComponents();
+        ButtonSelect.addActionListener(new ListenereSelection());
         
+        
+        TableAsignaturas.setModel(new AbstractTableModel() {
+
+            
+            String[] names = {"nombre", "codigo", "creditos", "intensidad"};
+            
+            @Override
+            public String getColumnName(int column) {
+                return names[column];
+            }
+
+            @Override
+            public int getRowCount() {
+                if(u.getAsignaturas().isEmpty()){
+                    return 0;
+                }
+                return u.getAsignaturas().size();
+            }
+
+            @Override
+            public int getColumnCount() {
+                return names.length;
+            }
+
+            @Override
+            public Object getValueAt(int rowIndex, int columnIndex) {
+                Asignatura asignatura = u.getAsignaturas().get(rowIndex);
+                switch(columnIndex){
+                    case 0: return asignatura.getNombre();
+                    case 1: return asignatura.getCodigo();
+                    case 2: return asignatura.getCreditos();
+                    case 3: return asignatura.getIntensidad();
+                        
+                }
+                return "";
+            }
+        });
+
     }
 
     /**
@@ -39,8 +84,6 @@ public class AsignaturasUI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TableAsignaturas = new javax.swing.JTable();
         ButtonSelect = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         TableAsignaturas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -83,7 +126,6 @@ public class AsignaturasUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonSelect;
@@ -91,14 +133,25 @@ public class AsignaturasUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
-public class ListenereSelection implements ActionListener{
+    public class ListenereSelection implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            
-        }
-    
-}
+            try {
+                if (TableAsignaturas.getSelectedRow() == -1) {
+                    throw new Exception("Error no se ha selecionado ninguna asignatura");
+                }
+                Asignatura asigna = u.getAsignaturas().get(TableAsignaturas.getSelectedRow());
+                proAsi.LoadAsignatura(asigna);
+                setVisible(false);
 
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+
+        }
+
+    }
 
 }

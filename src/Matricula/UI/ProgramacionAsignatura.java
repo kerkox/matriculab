@@ -37,6 +37,11 @@ public class ProgramacionAsignatura extends javax.swing.JFrame {
         initComponents();
         this.u = u;
         this.proCurso = proCurso;
+        
+        ButtonList.addActionListener(new ListenerListaAsignaturas());
+        ProgramacionButtonConsultar.addActionListener(new ListenerBuscarAsignatura());
+        AsignaturaCode.addActionListener(new ListenerBuscarAsignatura());
+        
 
         ProgramacionTableCursos.setModel(new AbstractTableModel() {
 
@@ -120,7 +125,6 @@ public class ProgramacionAsignatura extends javax.swing.JFrame {
         AsignaturaCode = new javax.swing.JFormattedTextField();
         AsignaturaName = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
