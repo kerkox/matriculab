@@ -5,7 +5,6 @@
  */
 package Matricula.UI;
 
-import Matricula.logic.Periodo;
 import Matricula.logic.Universidad;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,7 +40,7 @@ public class Principal extends javax.swing.JFrame {
 
             @Override
             public void windowClosing(WindowEvent e) {
-                //System.out.println("windowClosing");
+                
                 ObjectOutputStream oos = null;
                 try {
                     oos = new ObjectOutputStream(new FileOutputStream("univalle.data"));

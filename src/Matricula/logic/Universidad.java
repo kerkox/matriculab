@@ -4,8 +4,8 @@ import Matricula.logic.Exceptions.DateBeforeException;
 import Matricula.logic.Exceptions.ObjectNotFoundException;
 import Matricula.logic.enumclass.Estado;
 import Matricula.logic.enumclass.Mes;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
  *
  * @author atenea
  */
-public class Universidad {
+public class Universidad implements Serializable{
 
     private String nit;
     private String nombre;
@@ -31,8 +31,12 @@ public class Universidad {
         this.direccion = direccion;
     }
 
-    public void setPeriodoActual(Periodo actual) throws Exception {
+    public boolean setPeriodoActual(Periodo actual) throws Exception {
+        if (periodoActual != null) {
+            return true;
+        }
         this.periodoActual = actual;
+        return false;
 
     }
 
@@ -289,7 +293,7 @@ public class Universidad {
     //////*********************************
     public void MatricularCurso(Estudiante estu, Curso curso) throws Exception {
         estu.Matricular(curso, this.periodoActual);
-        
+
         //////*********************************
     }
 
@@ -299,29 +303,28 @@ public class Universidad {
 
     public void CancelarCursoPeriodo(Curso curso) throws Exception {
         periodoActual.CancelarCurso(curso);
-        
+
     }
 
     public void CancelarCursoPeriodo(int index) throws Exception {
         periodoActual.CancelarCurso(index);
-        
+
     }
 
     public Curso BuscarCurso(String codeSubject, byte group) throws ObjectNotFoundException {
-        for(Curso curso: this.periodoActual.getCursos()){
-            if(curso.getAsignatura().getCodigo().equals(codeSubject)){
-                if(curso.getGrupo()==group){
+        for (Curso curso : this.periodoActual.getCursos()) {
+            if (curso.getAsignatura().getCodigo().equals(codeSubject)) {
+                if (curso.getGrupo() == group) {
                     return curso;
                 }
             }
-            
+
         }
-            throw new ObjectNotFoundException("No se encuentra el Curso: grupo: " + group + " asignatura codigo: " + codeSubject);
+        throw new ObjectNotFoundException("No se encuentra el Curso: grupo: " + group + " asignatura codigo: " + codeSubject);
     }
 
     public boolean estudiantesMatriculados(Curso curso) {
-        List<Estudiante> estudiantes = this.estudianteJpa.findEstudianteEntities();
-        for (Estudiante estu : estudiantes) {
+        for (Estudiante estu : this.estudiantes) {
             if (estu.getTabuladoActual() == null) {
                 continue;
             }

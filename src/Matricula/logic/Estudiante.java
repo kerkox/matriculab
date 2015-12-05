@@ -5,20 +5,9 @@
  */
 package Matricula.logic;
 
-import Matricula.persistence.CursoJpaController;
-import Matricula.persistence.MatriculaJpaController;
-import Matricula.persistence.TabuladoJpaController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -130,8 +119,8 @@ public class Estudiante extends Persona {
     //Metodos de matricula
     public void Matricular(Curso curso, Periodo periodo) throws Exception {
         //////*********************************
-        if (getTabuladoActual() == null) {
-            this.tabulados.add(new Tabulado(periodo));
+        if (tabuladoActual == null) {
+            tabuladoActual = new Tabulado(periodo);
         }
         tabuladoActual.MatricularCurso(curso);
     }

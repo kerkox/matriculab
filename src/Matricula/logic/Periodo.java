@@ -8,52 +8,21 @@ package Matricula.logic;
 import Matricula.logic.Exceptions.ObjectNotFoundException;
 import Matricula.logic.enumclass.Estado;
 import Matricula.logic.enumclass.Mes;
-import Matricula.persistence.CursoJpaController;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author atenea
  */
-@Entity
-@Table(name = "PERIODO", uniqueConstraints = @UniqueConstraint(columnNames = {"inicia", "year1"}))
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Periodo.findAll", query = "SELECT p FROM Periodo p"),
-    @NamedQuery(name = "Periodo.findById", query = "SELECT p FROM Periodo p WHERE p.id = :id"),
-    @NamedQuery(name = "Periodo.findByActual", query = "SELECT p FROM Periodo p WHERE p.actual = :actual"),
-    @NamedQuery(name = "Periodo.findByFin", query = "SELECT p FROM Periodo p WHERE p.fin = :fin"),
-    @NamedQuery(name = "Periodo.findByInicia", query = "SELECT p FROM Periodo p WHERE p.inicia = :inicia"),
-    @NamedQuery(name = "Periodo.findByYear1", query = "SELECT p FROM Periodo p WHERE p.year1 = :year1")})
 public class Periodo implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column
     private Mes inicia;
-    @Column
     private Mes fin;
-    @Column(nullable = false)
-    private int year1 = 0;
-    @OneToMany
+    private int year = 0;
     private List<Curso> cursos = new ArrayList<>();
-    @Column(nullable = false)
     private boolean actual;
 
     public Periodo() {
@@ -63,7 +32,7 @@ public class Periodo implements Serializable {
     public Periodo(Mes inicia, Mes fin, int year1) {
         this.inicia = inicia;
         this.fin = fin;
-        this.year1 = year1;
+        this.year = year1;
         this.actual = true;
     }
 
@@ -82,15 +51,11 @@ public class Periodo implements Serializable {
     }
 
     public int getYear() {
-        return year1;
+        return year;
     }
 
     public List<Curso> getCursos() {
         return cursos;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     //============================
@@ -118,18 +83,14 @@ public class Periodo implements Serializable {
     }
 
     public void setYear(int year) {
-        this.year1 = year;
+        this.year = year;
     }
 
     public void setCursos(List<Curso> cursos) {
         this.cursos = cursos;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-    //==============================
-
+  //==============================
     public void editCurso(Curso curso) {
         Curso course = this.cursos.get(this.cursos.indexOf(curso));
         course.setEstado(Estado.ACTIVO);
@@ -138,7 +99,7 @@ public class Periodo implements Serializable {
     //==============================
     //Metodo Cancelar Curso
     public void CancelarCurso(Curso curso) {
-        Curso course = this.cursos.get(this.cursos.indexOf(id));
+        Curso course = this.cursos.get(this.cursos.indexOf(curso));
         course.setEstado(Estado.CANCELADO);
     }
 
@@ -220,36 +181,18 @@ public class Periodo implements Serializable {
         if (!Objects.equals(this.fin, other.fin)) {
             return false;
         }
-        if (this.year1 != other.year1) {
+        if (this.year != other.year) {
             return false;
         }
         return true;
     }
 
-    public Periodo(Long id) {
-        this.id = id;
-    }
-
-    public Periodo(Long id, boolean actual, int year1) {
-        this.id = id;
-        this.actual = actual;
-        this.year1 = year1;
-    }
-
-    public int getYear1() {
-        return year1;
-    }
-
-    public void setYear1(int year1) {
-        this.year1 = year1;
-    }
-
     @Override
     public String toString() {
-        if (year1 == 0) {
+        if (year == 0) {
             return inicia + " - " + fin;
         }
-        return inicia + " - " + fin + " " + year1;
+        return inicia + " - " + fin + " " + year;
     }
 
 }

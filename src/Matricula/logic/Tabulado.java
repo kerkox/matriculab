@@ -6,8 +6,6 @@
 package Matricula.logic;
 
 import Matricula.logic.enumclass.Estado;
-import Matricula.persistence.CursoJpaController;
-import Matricula.persistence.MatriculaJpaController;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -82,32 +80,15 @@ public class Tabulado implements Serializable {
     //==============================
     //Matricular cursos
     //////*********************************
+   
+
     public void MatricularCurso(Curso curso) throws Exception {
-        if (matriculas.contains(new Matricula(new Date(), curso))) {
-            Matricula matri = matriculas.get(matriculas.indexOf(new Matricula(new Date(), curso)));
-            if (matri.getCurso().getEstado() == Estado.CANCELADO) {
-                matri.getCurso().setEstado(Estado.ACTIVO);
-                creditos += matri.getCurso().getAsignatura().getCreditos();
-
-            } else {
-                throw new Exception("Curso ya Matriculado");
-            }
-        } else {
-            this.matriculas.add(new Matricula(new Date(), curso));
-
-            creditos += curso.getAsignatura().getCreditos();
-
-        }
-    }
-
-    public void MatricularCurso(Curso curso, CursoJpaController CursoJpa, MatriculaJpaController matriculaJpa) throws Exception {
         if (matriculas.contains(new Matricula(new Date(), curso))) {
             Matricula matri = matriculas.get(matriculas.indexOf(new Matricula(new Date(), curso)));
             if (matri.getEstado() == Estado.CANCELADO) {
                 matri.setEstado(Estado.ACTIVO);
                 creditos += matri.getCurso().getAsignatura().getCreditos();
-                matriculaJpa.edit(matri);
-
+                
             } else {
                 throw new Exception("Curso ya Matriculado");
             }

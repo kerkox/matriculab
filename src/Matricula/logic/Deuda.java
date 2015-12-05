@@ -7,35 +7,15 @@ package Matricula.logic;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author atenea
  */
-@Entity
-@Table(name = "DEUDA")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Deuda.findAll", query = "SELECT d FROM Deuda d"),
-    @NamedQuery(name = "Deuda.findById", query = "SELECT d FROM Deuda d WHERE d.id = :id")})
 public class Deuda implements Serializable {
    
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @OneToOne
-    private Periodo periodo;
+   private Periodo periodo;
     //=====================================
 
     public Deuda() {
@@ -51,9 +31,6 @@ public class Deuda implements Serializable {
         return periodo;
     }
 
-    public Long getId() {
-        return id;
-    }
     //=====================================
     //=====================================
     //Metodos Set
@@ -62,11 +39,7 @@ public class Deuda implements Serializable {
         this.periodo = periodo;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    //=====================================
+  //=====================================
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -82,17 +55,10 @@ public class Deuda implements Serializable {
         return true;
     }
 
-    public Deuda(Long id) {
-        this.id = id;
-    }
-
-   
-
-
-
+    
     @Override
     public String toString() {
-        return "Matricula.logic.Deuda[ id=" + id + " ]";
+        return periodo.toString();
     }
 
 }

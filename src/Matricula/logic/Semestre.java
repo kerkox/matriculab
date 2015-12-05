@@ -8,36 +8,15 @@ package Matricula.logic;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
+
 
 /**
  *
  * @author atenea
  */
-@Entity
-@Table(name = "SEMESTRE")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Semestre.findAll", query = "SELECT s FROM Semestre s"),
-    @NamedQuery(name = "Semestre.findById", query = "SELECT s FROM Semestre s WHERE s.id = :id"),
-    @NamedQuery(name = "Semestre.findByNumero", query = "SELECT s FROM Semestre s WHERE s.numero = :numero")})
 public class Semestre implements Serializable {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column
     private byte numero;
-    @OneToMany
     private List<Asignatura> asignaturas = new ArrayList<>();
     
 
@@ -58,15 +37,8 @@ public class Semestre implements Serializable {
         return asignaturas;
     }
     
-    public Long getId() {
-        return id;
-    }
-    
     //==============================
     //Metodos Set
-    public void setId(Long id) {
-        this.id = id;
-    }
     
     public void setNumero(byte numero) {
         this.numero = numero;

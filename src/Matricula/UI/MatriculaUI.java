@@ -14,8 +14,12 @@ import Matricula.logic.Tabulado;
 import Matricula.logic.Universidad;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
@@ -51,15 +55,13 @@ public class MatriculaUI extends javax.swing.JFrame {
             estu.getTabuladoActual().ActualizarCreditos();
             creditos = estu.getTabuladoActual().getCreditos();
         }
-        
-        
+
         //**************************
         //#########
         ListarPeriodos();
         ButtonConsultar.addActionListener(new ListenerConsultarTabuladoPerido());
-        
+
         //**************************
-        
         FieldTotalCreditos.setText(creditos + "");
 
         ButtonSearchCourse.addActionListener(new ListenerCursosProgramados());
@@ -110,7 +112,7 @@ public class MatriculaUI extends javax.swing.JFrame {
                 return "";
             }
         });
-        
+
         TableTabulados.setModel(new AbstractTableModel() {
 
             String[] names = {"Codigo", "Asignatura", "Grupo", "Estado", "Creditos"};
@@ -120,7 +122,7 @@ public class MatriculaUI extends javax.swing.JFrame {
                 if (estu.getTabulados().isEmpty()) {
                     return 0;
                 }
-                return estu.getTabulado((Periodo)ComboTabulados.getSelectedItem()).getMatriculas().size();
+                return estu.getTabulado((Periodo) ComboTabulados.getSelectedItem()).getMatriculas().size();
             }
 
             @Override
@@ -135,7 +137,7 @@ public class MatriculaUI extends javax.swing.JFrame {
 
             @Override
             public Object getValueAt(int rowIndex, int columnIndex) {
-                Matricula matricula = estu.getTabulado((Periodo)ComboTabulados.getSelectedItem()).getMatriculas().get(rowIndex);
+                Matricula matricula = estu.getTabulado((Periodo) ComboTabulados.getSelectedItem()).getMatriculas().get(rowIndex);
 
                 switch (columnIndex) {
                     case 0:
@@ -155,28 +157,25 @@ public class MatriculaUI extends javax.swing.JFrame {
         });
         ActualizarTablas();
     }
-    
-    public void ActualizarTablas(){
+
+    public void ActualizarTablas() {
         tableEnrolls.updateUI();
     }
-    
-    public void ListarPeriodos(){
+
+    public void ListarPeriodos() {
         //***************************
         //listando periodos del estudiante
         ComboTabulados.removeAllItems();
-        if(estu.getTabulados().isEmpty()){
+        if (estu.getTabulados().isEmpty()) {
             ComboTabulados.addItem("No hay tabulados disponibles");
-        }else{
-            for(Tabulado tabu :estu.getTabulados()){
+        } else {
+            for (Tabulado tabu : estu.getTabulados()) {
                 ComboTabulados.addItem(tabu.getPeriodo());
             }
         }
-        
+
         //***************************
     }
-    
-    
-    
 
     public void LoadMatricula(Curso curso) {
         this.cursoMatricular = curso;
@@ -518,17 +517,32 @@ public class MatriculaUI extends javax.swing.JFrame {
     }
 
     public class ListenerFinished implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
 
-                u.ActulizarEstudainte(estu);
+                ObjectOutputStream oos = null;
+                try {
+                    oos = new ObjectOutputStream(new FileOutputStream("univalle.data"));
+                    oos.writeObject(MatriculaUI.this.u);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                } finally {
+                    if (oos != null) {
+                        try {
+                            oos.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
                 estu = null;
                 main.setVisible(true);
                 setVisible(false);
-            } catch (ObjectNotFoundException ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage());
-                ex.printStackTrace();
+
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
                 ex.printStackTrace();
@@ -579,7 +593,7 @@ public class MatriculaUI extends javax.swing.JFrame {
                 tableEnrolls.updateUI();
 
             } catch (Exception ex) {
-
+                ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
             clear();
@@ -598,7 +612,7 @@ public class MatriculaUI extends javax.swing.JFrame {
             } else {
                 try {
                     Curso curso = estu.getTabuladoActual().getMatriculas().get(tableEnrolls.getSelectedRow()).getCurso();
-                    
+
                     u.CancelarCurso(estu, curso);
                     creditos = estu.getTabuladoActual().getCreditos();
                     FieldTotalCreditos.setText(creditos + "");
@@ -611,8 +625,8 @@ public class MatriculaUI extends javax.swing.JFrame {
         }
 
     }
-    
-     public class ListenerRefresco implements AncestorListener {
+
+    public class ListenerRefresco implements AncestorListener {
 
         @Override
         public void ancestorAdded(AncestorEvent event) {
@@ -628,17 +642,18 @@ public class MatriculaUI extends javax.swing.JFrame {
         public void ancestorMoved(AncestorEvent event) {
             ListarPeriodos();
             TableTabulados.updateUI();
-            
+
         }
 
     }
-    public class ListenerConsultarTabuladoPerido implements ActionListener{
+
+    public class ListenerConsultarTabuladoPerido implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             TableTabulados.updateUI();
         }
-        
+
     }
 
 }
