@@ -129,10 +129,7 @@ public class Periodo implements Serializable {
             }
 
         }
-        if (cursosProgramados.isEmpty()) {
-            throw new ObjectNotFoundException("Asignatura con codigo: " + codigoAsig + " No encontrada");
-        }
-
+    
         return cursosProgramados;
 
     }
