@@ -48,14 +48,12 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private HorariosCurso horariosUI = null;
     private boolean save = false;
     private Estudiante estudiante;
-    
 
     public ProgramarCurso(Docente docente, Universidad u, Principal main) {
         this.docenteLogueado = docente;
         this.main = main;
         this.u = u;
-        
-        
+
         initComponents();
         //***************************************   
         ListenerAddTime AddTime = new ListenerAddTime();
@@ -112,6 +110,10 @@ public class ProgramarCurso extends javax.swing.JFrame {
         StudentFieldCode.addActionListener(lcd);
         //***************************************   
         ConsultProgramacion.addActionListener(new ListenerConsultaProgramacion());
+        //***************************************   
+        ConsultCupos.addActionListener(new ListenerConsultaProgramacion());
+        //***************************************   
+        ConsultStudentPerPeriodo.addActionListener(new ListenerEstudiantesPeriodo());
         //***************************************   
 
         TableCupos.setModel(new AbstractTableModel() {
@@ -1360,14 +1362,14 @@ public class BuscarDocente implements ActionListener {
                 estudiante = u.buscarEstudiante(StudentFieldCode.getText().trim());
                 StudentFieldName.setText(estudiante.getFullName());
                 StudentFieldPlan.setText(estudiante.getPrograma().toString());
-                
+
                 StudentDeudaButtonAdd.setEnabled(true);
-                if(estudiante.getTabuladoActual()==null){
-                 StudentFieldPeriodo.setText("No se ha matriculado todavia");   
-                }else{
+                if (estudiante.getTabuladoActual() == null) {
+                    StudentFieldPeriodo.setText("No se ha matriculado todavia");
+                } else {
                     StudentFieldPeriodo.setText(estudiante.getTabuladoActual().getPeriodo().toString());
                 }
-                
+
                 StudentTableDeudas.updateUI();
             } catch (ObjectNotFoundException ex) {
                 ex.printStackTrace();
@@ -1415,7 +1417,7 @@ public class BuscarDocente implements ActionListener {
                 }
                 estudiante.EliminarDeuda(StudentTableDeudas.getSelectedRow());
                 StudentTableDeudas.updateUI();
-                
+
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -1423,24 +1425,24 @@ public class BuscarDocente implements ActionListener {
         }
 
     }
-    
-    public class ListenerConsultaProgramacion implements ActionListener{
+
+    public class ListenerConsultaProgramacion implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            new ProgramacionAsignatura(u,proCurso).setVisible(true);
+            new ProgramacionAsignatura(u, proCurso).setVisible(true);
             setVisible(false);
         }
-        
+
     }
-    
-    public class ListenerEstudiantesPeriodo implements ActionListener{
+
+    public class ListenerEstudiantesPeriodo implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-         new EstudiantesPeriodoUI(u, proCurso).setVisible(true);
+            new EstudiantesPeriodoUI(u, proCurso).setVisible(true);
         }
-        
+
     }
 
 }
