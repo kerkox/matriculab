@@ -1438,7 +1438,7 @@ public class BuscarDocente implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-        
+         new EstudiantesPeriodoUI(u, proCurso).setVisible(true);
         }
         
     }
