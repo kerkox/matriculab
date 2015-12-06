@@ -14,7 +14,6 @@ import javax.swing.table.AbstractTableModel;
 
 public class CuposUI extends javax.swing.JFrame {
 
-  
     private Universidad u;
     private ProgramarCurso proCurso;
     private List<Curso> cursos = new ArrayList<>();
@@ -30,7 +29,7 @@ public class CuposUI extends javax.swing.JFrame {
         ButtonConsultar.addActionListener(new ListenerBuscar());
         TableCupos.setModel(new AbstractTableModel() {
 
-            String[] names = {"Programa", "Cupos"};
+            String[] names = {"Programa", "Cupos", "Disponibles"};
 
             @Override
             public int getRowCount() {
@@ -58,6 +57,8 @@ public class CuposUI extends javax.swing.JFrame {
                         return cupo.getPrograma().toString();
                     case 1:
                         return cupo.getCantidad();
+                    case 2:
+                        return cupo.getDisponibles();
                 }
                 return "";
             }
@@ -256,7 +257,7 @@ public class ListenerBuscar implements ActionListener {
             try {
                 asignatura = u.BuscarAsignatura(SubjectCode.getText().trim());
                 LoadAsignatura(asignatura);
-                
+
             } catch (ObjectNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }

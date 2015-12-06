@@ -90,23 +90,24 @@ public class ProgramarCurso extends javax.swing.JFrame {
         ButtonNewPeriodo.addActionListener(new ListenerNewPeriodo());
         //***************************************   
         StudentButtonSearch.addActionListener(new ListenerSearchStudent());
+        StudentFieldCode.addActionListener(new ListenerSearchStudent());
         //***************************************   
         StudentDeudaButtonAdd.addActionListener(new ListenerAsignarDeuda());
         //***************************************   
         ListenerCancelarDeuda lcd = new ListenerCancelarDeuda();
         StudentButtonCancelDeuda.addActionListener(lcd);
-        StudentFieldCode.addActionListener(lcd);
+
         //***************************************   
         ConsultProgramacion.addActionListener(new ListenerConsultaProgramacion());
         //***************************************   
-        ConsultCupos.addActionListener(new ListenerConsultaProgramacion());
+        ConsultCupos.addActionListener(new ListenerConsultaCupos());
         //***************************************   
         ConsultStudentPerPeriodo.addActionListener(new ListenerEstudiantesPeriodo());
         //***************************************   
 
         TableCupos.setModel(new AbstractTableModel() {
 
-            String[] names = {"Programa", "Cupos"};
+            String[] names = {"Programa", "Cupos", "Disponibles"};
 
             @Override
             public int getRowCount() {
@@ -134,6 +135,8 @@ public class ProgramarCurso extends javax.swing.JFrame {
                         return cupo.getPrograma().toString();
                     case 1:
                         return cupo.getCantidad();
+                    case 2:
+                        return cupo.getDisponibles();
                 }
                 return "";
             }
@@ -1429,6 +1432,16 @@ public class BuscarDocente implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             new EstudiantesPeriodoUI(u, proCurso).setVisible(true);
+        }
+
+    }
+
+    public class ListenerConsultaCupos implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new CuposUI(u, proCurso).setVisible(true);
+            setVisible(false);
         }
 
     }

@@ -254,6 +254,7 @@ public class Universidad implements Serializable{
             }
 
         }
+         this.periodoActual.add(curso);
 
     }
 

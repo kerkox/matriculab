@@ -63,9 +63,9 @@ public class Main {
 //*********************************
                     //Estudiantes            
                     Estudiante[] students = {
-                        new Estudiante("123", 12345, "Pol", "Cortes", "1234", programs[0]),
-                        new Estudiante("12345", 123456, "Paul", "Cortes", "1234", programs[0]),
-                        new Estudiante("1234", 123456789, "Jeniffer", "Rosales", "1234", programs[2])};
+                        new Estudiante("123", 12345, "Joseph", "Bolaños", "1234", programs[0]),
+                        new Estudiante("12345", 123456, "Pepito", "Perez", "1234", programs[0]),
+                    };
                     if (u.getEstudiantes().isEmpty()) {
 
                         //Registro de Estudiantes
