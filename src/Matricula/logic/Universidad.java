@@ -105,6 +105,22 @@ public class Universidad implements Serializable{
         periodoActual.add(curso);
 
     }
+    
+    public List<Estudiante> FiltrarEstudiantesPeriodo(Periodo periodo){
+        List<Estudiante> filtrados = new ArrayList<>();
+        for(Estudiante estu : this.estudiantes){
+            for(Tabulado tabu : estu.getTabulados()){
+                if(tabu.getPeriodo().equals(periodo)){
+                    filtrados.add(estu);
+                }
+            }
+                
+        }
+        return filtrados;
+        
+        
+    }
+            
 
     /**
      *

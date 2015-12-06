@@ -13,8 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
@@ -90,13 +88,26 @@ public class ProgramacionAsignatura extends javax.swing.JFrame {
 
     }
 
+    public void FiltrarCurso(String codeAsignatra, List<Curso> cursos){
+        for(Curso curso : cursos)
+        {
+            if(curso.getAsignatura().getCodigo().equals(codeAsignatra)){
+                cursosPrgramados.add(curso);
+            }
+                
+        }
+        
+    }
+            
     public void LoadAsignatura(Asignatura asig) {
         try {
+            cursosPrgramados= new ArrayList<>();
             this.asignatura = asig;
             AsignaturaCode.setText(asignatura.getCodigo());
             AsignaturaName.setText(asignatura.getNombre());
             AsignaturaName.setText(asignatura.getNombre());
-            cursosPrgramados = u.programacionAsignatura(asignatura.getCodigo());
+            FiltrarCurso(AsignaturaCode.getText().trim(), u.getPeriodoActual().getCursos());
+            System.out.println("tamaño de cursoprogramados: "+ cursosPrgramados.size());
             ProgramacionTableCursos.updateUI();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -162,7 +173,7 @@ public class ProgramacionAsignatura extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)

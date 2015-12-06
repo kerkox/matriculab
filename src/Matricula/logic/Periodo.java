@@ -124,7 +124,7 @@ public class Periodo implements Serializable {
         ArrayList<Curso> cursosProgramados = new ArrayList<>();
         for (Curso curso : this.cursos) {
 
-            if (curso.getAsignatura().equals(codigoAsig)) {
+            if (codigoAsig.equals(curso.getAsignatura())) {
                 cursosProgramados.add(curso);
             }
 
