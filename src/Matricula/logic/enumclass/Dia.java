@@ -1,9 +1,5 @@
 package Matricula.logic.enumclass;
 
-/**
- *
- * @author atenea
- */
 
 public enum Dia {
 

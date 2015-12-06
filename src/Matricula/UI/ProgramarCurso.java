@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Matricula.UI;
 
 import Matricula.logic.Asignatura;
@@ -28,15 +23,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.AbstractTableModel;
 
-/**
- *
- * @author atenea
- */
 public class ProgramarCurso extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ProgramarCurso
-     */
     private Docente docenteLogueado;
     private Universidad u;
     private Docente docente;

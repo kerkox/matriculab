@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Matricula.UI;
 
 import Matricula.logic.Asignatura;
@@ -17,15 +12,9 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
-/**
- *
- * @author Jeniffer-
- */
 public class CuposUI extends javax.swing.JFrame {
 
-    /**
-     * Creates new form CuposUI
-     */
+  
     private Universidad u;
     private ProgramarCurso proCurso;
     private List<Curso> cursos = new ArrayList<>();
