@@ -36,6 +36,7 @@ public class Universidad implements Serializable{
             return true;
         }
         this.periodoActual = actual;
+        this.periodos.add(periodoActual);
         return false;
 
     }
